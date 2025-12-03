@@ -20,4 +20,4 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           cd server
-          railway up --service server --detach
+          railway up --service 87435885-818a-47cd-95c2-da747d5a9c45 --detach
