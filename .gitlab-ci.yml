@@ -9,7 +9,10 @@ deploy-server:
   stage: deploy
   script:
     - echo "Desplegando Backend en Railway..."
-    - echo "Token disponible - iniciando despliegue"
+    # Configurar Account Token correctamente
+    - export RAILWAY_API_TOKEN=$RAILWAY_TOKEN
+    - unset RAILWAY_TOKEN
+    - echo "Token configurado como API Token"
     - cd server
     - railway up --service c8608e6b-e98c-4030-b1fc-8547423c9984 --detach
   only:
