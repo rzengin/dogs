@@ -142,17 +142,10 @@ export default function Login() {
                         </button>
 
                         {/* Divider */}
-                        <div className="divider">
-                            <span>o</span>
-                        </div>
+
 
                         {/* Social Login - Optional */}
-                        <div className="social-login">
-                            <button type="button" className="btn btn-social">
-                                <img src="https://www.google.com/favicon.ico" alt="Google" />
-                                Continuar con Google
-                            </button>
-                        </div>
+
 
                         {/* Signup Link */}
                         <div className="auth-footer">

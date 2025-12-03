@@ -1,32 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Heart, User, LogOut } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import './Navbar.css';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Check login status
-    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    setIsLoggedIn(loggedIn);
-
-    if (loggedIn) {
-      const user = localStorage.getItem('currentUser');
-      if (user) {
-        setCurrentUser(JSON.parse(user));
-      }
-    }
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('currentUser');
-    setIsLoggedIn(false);
-    setCurrentUser(null);
+    logout();
     navigate('/');
   };
 
@@ -52,14 +36,14 @@ export default function Navbar() {
           <Link to="/services" className="navbar-link">Servicios</Link>
 
           <div className="navbar-actions">
-            {isLoggedIn ? (
+            {isAuthenticated ? (
               <>
                 <button className="navbar-icon-btn" aria-label="Favorites">
                   <Heart size={20} />
                 </button>
                 <div className="user-menu">
                   <span className="user-name">
-                    {currentUser?.firstName || 'Usuario'}
+                    {user?.firstName || 'Usuario'}
                   </span>
                   <button
                     className="navbar-icon-btn"
