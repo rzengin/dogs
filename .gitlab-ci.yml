@@ -11,7 +11,7 @@ deploy-server:
     - echo "Desplegando Backend en Railway..."
     - echo "Token disponible - iniciando despliegue"
     - cd server
-    - railway up --service server --detach
+    - railway up --service c8608e6b-e98c-4030-b1fc-8547423c9984 --detach
   only:
     - main
   environment:
