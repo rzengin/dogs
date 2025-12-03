@@ -3,26 +3,25 @@ image: ghcr.io/railwayapp/cli:latest
 stages:
   - deploy
 
-variables:
-  # Define el nombre de tus servicios en Railway aquí o usa el ID del servicio
-  SERVER_SERVICE_NAME: "server"
-  CLIENT_SERVICE_NAME: "client"
-
+# Primer despliegue: Solo Backend
+# Railway creará el servicio automáticamente
 deploy-server:
   stage: deploy
   script:
-    - echo "Desplegando Backend..."
+    - echo "Desplegando Backend en Railway..."
     - cd server
-    # Se asume que ya has creado el proyecto en Railway y tienes el RAILWAY_TOKEN configurado
-    - railway up --service $SERVER_SERVICE_NAME --detach
+    - railway up --detach
   only:
     - main
+  environment:
+    name: production
 
-deploy-client:
-  stage: deploy
-  script:
-    - echo "Desplegando Frontend..."
-    - cd client
-    - railway up --service $CLIENT_SERVICE_NAME --detach
-  only:
-    - main
+# Descomentar después del primer despliegue exitoso del backend
+# deploy-client:
+#   stage: deploy
+#   script:
+#     - echo "Desplegando Frontend en Railway..."
+#     - cd client
+#     - railway up --detach
+#   only:
+#     - main
