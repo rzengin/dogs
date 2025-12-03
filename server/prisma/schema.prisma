@@ -11,6 +11,11 @@ datasource db {
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
+  password  String
+  firstName String
+  lastName  String
+  phone     String?
+  city      String?
   name      String
   role      String   @default("USER") // USER, SITTER, ADMIN
   createdAt DateTime @default(now())
@@ -32,13 +37,16 @@ model SitterProfile {
 }
 
 model Pet {
-  id        Int      @id @default(autoincrement())
-  name      String
-  type      String
-  breed     String?
-  age       Int?
-  ownerId   Int
-  owner     User     @relation(fields: [ownerId], references: [id])
+  id           Int      @id @default(autoincrement())
+  petName      String
+  petBreed     String
+  petAge       String
+  petWeight    String?
+  specialNeeds String?
+  ownerId      Int
+  owner        User     @relation(fields: [ownerId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Booking {

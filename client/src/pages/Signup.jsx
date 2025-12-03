@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, Phone, MapPin, Eye, EyeOff } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 import './Signup.css';
 
 export default function Signup() {
     const navigate = useNavigate();
+    const { signup } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         firstName: '',
@@ -62,26 +64,23 @@ export default function Signup() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
-            // Simulate user creation - in real app, this would call an API
-            const user = {
-                id: Date.now(),
-                ...formData,
-                createdAt: new Date().toISOString()
-            };
+            try {
+                await signup(formData);
 
-            // Store user in localStorage (mock authentication)
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            localStorage.setItem('isLoggedIn', 'true');
-
-            // Navigate based on user type
-            if (formData.userType === 'sitter') {
-                navigate('/become-sitter');
-            } else {
-                navigate('/search');
+                // Navigate based on user type
+                if (formData.userType === 'sitter') {
+                    navigate('/become-sitter');
+                } else {
+                    navigate('/search');
+                }
+            } catch (error) {
+                // Handle error (could add error state to display to user)
+                console.error('Signup error:', error);
+                alert(error.message || 'Error al crear cuenta');
             }
         }
     };

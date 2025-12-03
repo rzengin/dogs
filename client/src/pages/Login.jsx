@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
 
 export default function Login() {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
@@ -48,41 +50,16 @@ export default function Login() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
-            // Mock authentication - in real app, this would call an API
-            // For demo purposes, accept any email/password combination
-
-            // Check if there's a stored user (from signup)
-            const storedUser = localStorage.getItem('currentUser');
-
-            if (storedUser) {
-                const user = JSON.parse(storedUser);
-
-                // Simple check - in real app, passwords would be hashed
-                if (user.email === formData.email) {
-                    localStorage.setItem('isLoggedIn', 'true');
-                    navigate('/search');
-                    return;
-                }
+            try {
+                await login(formData);
+                navigate('/search');
+            } catch (error) {
+                setLoginError(error.message || 'Error al iniciar sesión');
             }
-
-            // For demo: accept any valid email/password
-            // Create a demo user
-            const demoUser = {
-                id: Date.now(),
-                email: formData.email,
-                firstName: 'Usuario',
-                lastName: 'Demo',
-                userType: 'owner',
-                createdAt: new Date().toISOString()
-            };
-
-            localStorage.setItem('currentUser', JSON.stringify(demoUser));
-            localStorage.setItem('isLoggedIn', 'true');
-            navigate('/search');
         }
     };
 
