@@ -7,6 +7,8 @@ stages:
 # Railway creará el servicio automáticamente
 deploy-server:
   stage: deploy
+  variables:
+    RAILWAY_TOKEN: $RAILWAY_TOKEN
   script:
     - echo "Desplegando Backend en Railway..."
     - cd server
