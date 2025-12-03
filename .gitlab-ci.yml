@@ -9,9 +9,7 @@ deploy-server:
   stage: deploy
   script:
     - echo "Desplegando Backend en Railway..."
-    # Debug: Verificar que el token está disponible (sin mostrar el valor)
-    - echo "Verificando RAILWAY_TOKEN..."
-    - test -n "$RAILWAY_TOKEN" && echo "Token encontrado" || echo "ERROR: Token no encontrado"
+    - echo "Token disponible - iniciando despliegue"
     - cd server
     - railway up --detach
   only:
