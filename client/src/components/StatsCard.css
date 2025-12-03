@@ -1,0 +1,121 @@
+.stats-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+    animation: fadeIn 0.6s ease-out;
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    transition: height var(--transition-base);
+}
+
+.stats-card-primary::before {
+    background: var(--gradient-primary);
+}
+
+.stats-card-accent::before {
+    background: var(--gradient-accent);
+}
+
+.stats-card-success::before {
+    background: linear-gradient(135deg, hsl(140, 70%, 50%) 0%, hsl(160, 70%, 50%) 100%);
+}
+
+.stats-card-warning::before {
+    background: linear-gradient(135deg, hsl(45, 90%, 55%) 0%, hsl(30, 90%, 55%) 100%);
+}
+
+.stats-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stats-card:hover::before {
+    height: 8px;
+}
+
+.stats-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.stats-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--color-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all var(--transition-base);
+}
+
+.stats-card:hover .stats-card-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.stats-card-trend {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.stats-card-trend.positive {
+    background: hsla(140, 70%, 50%, 0.15);
+    color: hsl(140, 70%, 40%);
+}
+
+.stats-card-trend.negative {
+    background: hsla(0, 70%, 50%, 0.15);
+    color: hsl(0, 70%, 40%);
+}
+
+.stats-card-trend.neutral {
+    background: hsla(220, 15%, 50%, 0.15);
+    color: var(--color-text-light);
+}
+
+.stats-card-body {
+    margin-top: var(--spacing-sm);
+}
+
+.stats-card-value {
+    font-size: var(--font-size-3xl);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xs);
+    line-height: 1;
+}
+
+.stats-card-title {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    font-weight: 500;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+    .stats-card-value {
+        font-size: var(--font-size-2xl);
+    }
+}

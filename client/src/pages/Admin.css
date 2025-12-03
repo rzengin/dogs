@@ -1,0 +1,298 @@
+.admin-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, hsl(200, 70%, 98%) 0%, hsl(220, 70%, 98%) 100%);
+    padding-bottom: var(--spacing-2xl);
+}
+
+.admin-header {
+    background: var(--gradient-primary);
+    color: white;
+    padding: var(--spacing-2xl) 0;
+    margin-bottom: var(--spacing-2xl);
+    box-shadow: var(--shadow-lg);
+    animation: slideInLeft 0.6s ease-out;
+}
+
+.admin-title {
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-size-4xl);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-subtitle {
+    font-size: var(--font-size-lg);
+    opacity: 0.95;
+    font-weight: 500;
+    margin: 0;
+}
+
+.admin-container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.admin-tabs {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-2xl);
+    overflow-x: auto;
+    padding-bottom: var(--spacing-sm);
+    scrollbar-width: thin;
+}
+
+.admin-tabs::-webkit-scrollbar {
+    height: 6px;
+}
+
+.admin-tabs::-webkit-scrollbar-track {
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+}
+
+.admin-tabs::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: var(--radius-full);
+}
+
+.admin-tab {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.875rem 1.5rem;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    white-space: nowrap;
+    font-family: var(--font-family);
+}
+
+.admin-tab:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+}
+
+.admin-tab.active {
+    background: var(--gradient-primary);
+    color: white;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.tab-icon {
+    font-size: 1.25rem;
+}
+
+.admin-content {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.section-title {
+    font-size: var(--font-size-3xl);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.subsection-title {
+    font-size: var(--font-size-xl);
+    color: var(--color-text);
+    margin: var(--spacing-2xl) 0 var(--spacing-lg);
+}
+
+/* Overview Section */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.charts-section {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+    animation: fadeIn 0.8s ease-out;
+}
+
+.activity-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.activity-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, hsl(200, 70%, 97%) 0%, hsl(220, 70%, 97%) 100%);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-primary);
+    transition: all var(--transition-base);
+}
+
+.activity-card:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-md);
+}
+
+.activity-icon {
+    font-size: 2.5rem;
+    background: white;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.activity-content h4 {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.activity-content p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    margin: 0;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-active,
+.badge-approved,
+.badge-confirmed,
+.badge-processed,
+.badge-completed {
+    background: hsla(140, 70%, 50%, 0.15);
+    color: hsl(140, 70%, 35%);
+}
+
+.badge-inactive,
+.badge-cancelled {
+    background: hsla(0, 70%, 50%, 0.15);
+    color: hsl(0, 70%, 40%);
+}
+
+.badge-pending {
+    background: hsla(45, 90%, 55%, 0.15);
+    color: hsl(45, 90%, 35%);
+}
+
+/* Section spacing */
+.section {
+    margin-bottom: var(--spacing-2xl);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-header {
+        padding: var(--spacing-xl) 0;
+    }
+
+    .admin-title {
+        font-size: var(--font-size-3xl);
+    }
+
+    .admin-subtitle {
+        font-size: var(--font-size-base);
+    }
+
+    .admin-tabs {
+        flex-wrap: nowrap;
+        gap: var(--spacing-xs);
+    }
+
+    .admin-tab {
+        padding: 0.75rem 1rem;
+        font-size: var(--font-size-sm);
+    }
+
+    .tab-label {
+        display: none;
+    }
+
+    .tab-icon {
+        font-size: 1.5rem;
+    }
+
+    .admin-tab.active .tab-label {
+        display: inline;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .activity-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .charts-section {
+        padding: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .activity-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .activity-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 2rem;
+    }
+}
+
+/* Animations */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-content>* {
+    animation: slideDown 0.4s ease-out;
+}

@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  role      String   @default("USER") // USER, SITTER, ADMIN
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  pets      Pet[]
+  bookings  Booking[]
+  profile   SitterProfile?
+}
+
+model SitterProfile {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique
+  user        User     @relation(fields: [userId], references: [id])
+  bio         String
+  price       Float
+  location    String
+  rating      Float    @default(0)
+  reviews     Review[]
+}
+
+model Pet {
+  id        Int      @id @default(autoincrement())
+  name      String
+  type      String
+  breed     String?
+  age       Int?
+  ownerId   Int
+  owner     User     @relation(fields: [ownerId], references: [id])
+}
+
+model Booking {
+  id        Int      @id @default(autoincrement())
+  startDate DateTime
+  endDate   DateTime
+  status    String   @default("PENDING") // PENDING, CONFIRMED, COMPLETED, CANCELLED
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  sitterId  Int // Reference to SitterProfile ID ideally, or User ID of sitter
+  createdAt DateTime @default(now())
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int
+  comment   String
+  sitterId  Int
+  sitter    SitterProfile @relation(fields: [sitterId], references: [id])
+}

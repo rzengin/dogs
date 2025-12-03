@@ -1,0 +1,456 @@
+/* ============================================
+   Booking Page Styles
+   ============================================ */
+
+.booking-page {
+    min-height: calc(100vh - 80px);
+    padding-bottom: var(--spacing-2xl);
+}
+
+/* Header */
+.booking-header {
+    background: var(--gradient-primary);
+    color: white;
+    padding: var(--spacing-xl) 0;
+    margin-bottom: var(--spacing-xl);
+}
+
+.booking-title {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-xs);
+}
+
+.booking-subtitle {
+    font-size: var(--font-size-lg);
+    opacity: 0.9;
+    margin: 0;
+}
+
+/* Layout */
+.booking-content {
+    max-width: 1200px;
+}
+
+.booking-form-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: var(--spacing-xl);
+    align-items: start;
+}
+
+.booking-main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.booking-sidebar {
+    position: sticky;
+    top: var(--spacing-lg);
+}
+
+/* Sections */
+.booking-section {
+    animation-delay: 0.1s;
+}
+
+.booking-section h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--color-text);
+}
+
+/* Service Info */
+.service-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.sitter-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.sitter-avatar-sm {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.sitter-summary h3 {
+    margin: 0;
+    font-size: var(--font-size-lg);
+}
+
+.sitter-summary p {
+    margin: 0;
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+}
+
+.service-details {
+    background: var(--color-primary-light);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+}
+
+.service-name {
+    font-weight: 600;
+    font-size: var(--font-size-lg);
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--color-text);
+}
+
+.service-price {
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: var(--font-size-xl);
+    margin: 0;
+}
+
+/* Dates */
+.date-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.days-info {
+    background: var(--color-accent);
+    color: white;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    text-align: center;
+    font-size: var(--font-size-lg);
+}
+
+.days-info strong {
+    font-size: var(--font-size-2xl);
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Form Elements */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.form-label {
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+}
+
+.form-input,
+.form-textarea {
+    padding: 0.875rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    font-family: var(--font-family);
+    transition: all var(--transition-base);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.form-input.error,
+.form-textarea.error {
+    border-color: hsl(0, 70%, 50%);
+}
+
+.error-message {
+    color: hsl(0, 70%, 50%);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Booking Summary */
+.booking-summary {
+    background: var(--color-surface);
+}
+
+.booking-summary h3 {
+    font-size: var(--font-size-xl);
+    margin: 0 0 var(--spacing-lg) 0;
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--color-border);
+}
+
+.summary-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.summary-section h4 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    margin: 0 0 var(--spacing-sm) 0;
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+}
+
+.summary-row span:first-child {
+    color: var(--color-text-light);
+}
+
+.summary-row span:last-child {
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.summary-divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: var(--spacing-md) 0;
+}
+
+.summary-row.total {
+    font-size: var(--font-size-lg);
+    padding-top: var(--spacing-sm);
+}
+
+.summary-row.total strong {
+    color: var(--color-text);
+}
+
+.btn-block {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+}
+
+.booking-note {
+    text-align: center;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-light);
+    margin: 0;
+}
+
+/* Error State */
+.error-state {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--color-text-light);
+}
+
+.error-state svg {
+    color: var(--color-accent);
+    margin-bottom: var(--spacing-md);
+}
+
+.error-state h2 {
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+}
+
+.error-state p {
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .booking-form-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-sidebar {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .booking-title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .date-grid,
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-section h2 {
+        font-size: var(--font-size-lg);
+    }
+}
+
+/* Animations */
+.slide-in-left {
+    animation: slideInLeft 0.6s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.booking-section:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.booking-section:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.booking-section:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+/* Pet Selection */
+.pet-selection {
+    margin-bottom: var(--spacing-lg);
+}
+
+.section-subtitle {
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-sm);
+}
+
+.pet-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.pet-card-select {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-sm);
+    position: relative;
+    background: var(--color-surface);
+}
+
+.pet-card-select:hover {
+    border-color: var(--color-primary-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.pet-card-select.active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+.pet-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-light);
+    transition: all var(--transition-base);
+}
+
+.pet-card-select.active .pet-icon {
+    background: white;
+    color: var(--color-primary);
+}
+
+.new-pet .pet-icon {
+    border: 2px dashed var(--color-border);
+    background: transparent;
+}
+
+.new-pet:hover .pet-icon {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.pet-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.pet-name {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.pet-breed {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-light);
+}
+
+.check-mark {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    color: var(--color-primary);
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.disabled-inputs {
+    opacity: 0.7;
+    pointer-events: none;
+    filter: grayscale(0.5);
+}
+
+/* Ensure inputs look readable even when disabled but not grayed out if we want them visible */
+.disabled-inputs .form-input,
+.disabled-inputs .form-textarea {
+    background-color: var(--color-background);
+    border-color: var(--color-border);
+}

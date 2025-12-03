@@ -1,0 +1,52 @@
+.bar-chart-container {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+}
+
+.bar-chart {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.bar {
+    cursor: pointer;
+    transition: all var(--transition-base);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.bar:hover,
+.bar.hovered {
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+    transform: translateY(-4px);
+}
+
+.bar-label {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+@keyframes growBar {
+    from {
+        height: 0;
+        y: 100%;
+    }
+
+    to {
+        height: var(--bar-height);
+        y: var(--bar-y);
+    }
+}
+
+@media (max-width: 768px) {
+    .bar-chart-container {
+        padding: var(--spacing-md);
+    }
+
+    .bar-label {
+        font-size: 9px;
+    }
+}
