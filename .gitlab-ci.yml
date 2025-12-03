@@ -7,11 +7,11 @@ stages:
 # Railway creará el servicio automáticamente
 deploy-server:
   stage: deploy
-  variables:
-    RAILWAY_TOKEN: $RAILWAY_TOKEN
   script:
     - echo "Desplegando Backend en Railway..."
     - cd server
+    # Autenticar usando el token
+    - railway link --environment production
     - railway up --detach
   only:
     - main
@@ -24,6 +24,7 @@ deploy-server:
 #   script:
 #     - echo "Desplegando Frontend en Railway..."
 #     - cd client
+#     - railway link --environment production
 #     - railway up --detach
 #   only:
 #     - main
