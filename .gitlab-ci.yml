@@ -14,6 +14,8 @@ deploy-server:
     - unset RAILWAY_TOKEN
     - echo "Token configurado como API Token"
     - cd server
+    # Vincular al proyecto usando el ID
+    - railway link 87435885-818a-47cd-95c2-da747d5a9c45
     - railway up --service c8608e6b-e98c-4030-b1fc-8547423c9984 --detach
   only:
     - main
