@@ -18,7 +18,13 @@ jobs:
       - name: Deploy Server
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: 87435885-818a-47cd-95c2-da747d5a9c45
         run: |
+          railway --version
+          # Try to print whoami to verify auth (might fail if token is invalid)
+          railway whoami || echo "Whoami failed"
+
           cd server
+          # If RAILWAY_TOKEN is a Project Token, we don't need project ID or service ID if we are in the root of the service code
+          # But since we are in a monorepo, we might need to specify the service.
+          # Let's try to link via token implicitly or just run up.
           railway up --service c8608e6b-e98c-4030-b1fc-8547423c9984 --detach
