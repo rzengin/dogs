@@ -18,25 +18,35 @@ export const AuthProvider = ({ children }) => {
 
     // Check if user is logged in on mount
     useEffect(() => {
-        const token = localStorage.getItem('authToken');
-        if (token) {
-            // Verify token and get user data
-            api.auth.getCurrentUser()
-                .then((userData) => {
+        const checkAuth = async () => {
+            const token = localStorage.getItem('authToken');
+            console.log('🔍 Checking auth, token exists:', !!token);
+            
+            if (token) {
+                try {
+                    console.log('📡 Fetching current user...');
+                    const userData = await api.auth.getCurrentUser();
+                    console.log('✅ User authenticated:', userData);
                     setUser(userData);
                     setIsAuthenticated(true);
-                })
-                .catch((error) => {
-                    console.error('Failed to get current user:', error);
+                } catch (error) {
+                    console.error('❌ Failed to get current user:', error);
                     // Token is invalid, remove it
                     localStorage.removeItem('authToken');
-                })
-                .finally(() => {
+                    localStorage.removeItem('currentUser');
+                    setUser(null);
+                    setIsAuthenticated(false);
+                } finally {
                     setLoading(false);
-                });
-        } else {
-            setLoading(false);
-        }
+                }
+            } else {
+                console.log('⚠️ No token found');
+                setLoading(false);
+                setIsAuthenticated(false);
+            }
+        };
+
+        checkAuth();
     }, []);
 
     const login = async (credentials) => {
