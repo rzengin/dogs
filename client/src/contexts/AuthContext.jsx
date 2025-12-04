@@ -20,27 +20,33 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkAuth = async () => {
             const token = localStorage.getItem('authToken');
-            console.log('🔍 Checking auth, token exists:', !!token);
+            console.log('🔍 [AuthContext] Checking auth on mount');
+            console.log('🔍 [AuthContext] Token exists:', !!token);
+            console.log('🔍 [AuthContext] Token value:', token ? token.substring(0, 20) + '...' : 'null');
             
             if (token) {
                 try {
-                    console.log('📡 Fetching current user...');
+                    console.log('📡 [AuthContext] Fetching current user from /api/auth/me...');
                     const userData = await api.auth.getCurrentUser();
-                    console.log('✅ User authenticated:', userData);
+                    console.log('✅ [AuthContext] User authenticated successfully:', userData);
                     setUser(userData);
                     setIsAuthenticated(true);
+                    console.log('✅ [AuthContext] State updated - isAuthenticated: true');
                 } catch (error) {
-                    console.error('❌ Failed to get current user:', error);
+                    console.error('❌ [AuthContext] Failed to get current user:', error);
+                    console.error('❌ [AuthContext] Error details:', error.message);
                     // Token is invalid, remove it
                     localStorage.removeItem('authToken');
                     localStorage.removeItem('currentUser');
                     setUser(null);
                     setIsAuthenticated(false);
+                    console.log('❌ [AuthContext] Cleared auth state');
                 } finally {
                     setLoading(false);
+                    console.log('✅ [AuthContext] Loading complete');
                 }
             } else {
-                console.log('⚠️ No token found');
+                console.log('⚠️ [AuthContext] No token found in localStorage');
                 setLoading(false);
                 setIsAuthenticated(false);
             }
