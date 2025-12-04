@@ -1,12 +1,20 @@
 # Build Stage
 FROM node:18-alpine as build
 
+# Recibir la variable de entorno como argumento
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci
 
 COPY . .
+
+# Verificar que la variable esté presente
+RUN echo "Building with VITE_API_URL: $VITE_API_URL"
+
 RUN npm run build
 
 # Production Stage
