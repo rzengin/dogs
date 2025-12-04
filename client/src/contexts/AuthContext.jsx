@@ -51,26 +51,40 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
+            console.log('🔐 Attempting login with:', credentials.email);
             const data = await api.auth.login(credentials);
+            console.log('✅ Login successful, received token:', data.token ? 'Yes' : 'No');
+            console.log('✅ User data:', data.user);
+            
             localStorage.setItem('authToken', data.token);
             localStorage.setItem('currentUser', JSON.stringify(data.user));
             setUser(data.user);
             setIsAuthenticated(true);
+            
+            console.log('✅ Auth state updated, isAuthenticated:', true);
             return data;
         } catch (error) {
+            console.error('❌ Login failed:', error);
             throw error;
         }
     };
 
     const signup = async (userData) => {
         try {
+            console.log('📝 Attempting signup with:', userData.email);
             const data = await api.auth.signup(userData);
+            console.log('✅ Signup successful, received token:', data.token ? 'Yes' : 'No');
+            console.log('✅ User data:', data.user);
+            
             localStorage.setItem('authToken', data.token);
             localStorage.setItem('currentUser', JSON.stringify(data.user));
             setUser(data.user);
             setIsAuthenticated(true);
+            
+            console.log('✅ Auth state updated, isAuthenticated:', true);
             return data;
         } catch (error) {
+            console.error('❌ Signup failed:', error);
             throw error;
         }
     };
