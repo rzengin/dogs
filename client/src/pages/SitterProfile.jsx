@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { MapPin, Star, Shield, MessageCircle, Calendar, DollarSign, Award, Clock } from 'lucide-react';
 import { useState } from 'react';
-import './Profile.css';
+import './SitterProfile.css';
 
 // Mock data (would come from Search page or API)
 const mockSitter = {
@@ -53,7 +53,7 @@ const mockReviews = [
     }
 ];
 
-export default function Profile() {
+export default function SitterProfile() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [selectedService, setSelectedService] = useState(mockSitter.services[0]);
