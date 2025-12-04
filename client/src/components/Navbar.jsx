@@ -42,9 +42,10 @@ export default function Navbar() {
                   <Heart size={20} />
                 </button>
                 <div className="user-menu">
-                  <span className="user-name">
+                  <Link to="/profile" className="user-name">
+                    <User size={18} />
                     {user?.firstName || 'Usuario'}
-                  </span>
+                  </Link>
                   <button
                     className="navbar-icon-btn"
                     onClick={handleLogout}

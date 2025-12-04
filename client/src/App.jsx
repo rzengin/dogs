@@ -5,7 +5,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Search from './pages/Search';
-import Profile from './pages/Profile';
+import SitterProfile from './pages/SitterProfile';
+import UserProfile from './pages/UserProfile';
 import BecomeSitter from './pages/BecomeSitter';
 import Booking from './pages/Booking';
 import BookingConfirmation from './pages/BookingConfirmation';
@@ -25,7 +26,15 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/search" element={<Search />} />
-              <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/sitter/:id" element={<SitterProfile />} />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <UserProfile />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/become-sitter" element={<BecomeSitter />} />
               <Route
                 path="/booking/:sitterId"

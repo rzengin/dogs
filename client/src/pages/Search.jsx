@@ -193,7 +193,7 @@ export default function Search() {
                                     </div>
                                 </div>
 
-                                <Link to={`/profile/${sitter.id}`} className="btn btn-primary sitter-cta">
+                                <Link to={`/sitter/${sitter.id}`} className="btn btn-primary sitter-cta">
                                     Ver Perfil
                                 </Link>
                             </div>
