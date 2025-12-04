@@ -1,13 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CheckCircle, Upload, MapPin, Briefcase, Home, Calendar, User } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import api from '../utils/api';
 import './BecomeSitter.css';
 
 export default function BecomeSitter() {
+    const { user, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+    const [isExistingUser, setIsExistingUser] = useState(false);
     const [formData, setFormData] = useState({
-        // Personal Info
+        // Personal Info (for new users)
         firstName: '',
         lastName: '',
         email: '',
+        password: '',
         phone: '',
         city: '',
         neighborhood: '',
@@ -23,6 +30,9 @@ export default function BecomeSitter() {
         allowsPets: false,
         maxPets: '1',
 
+        // Pricing
+        price: '',
+
         // Availability
         availability: [],
 
@@ -34,6 +44,21 @@ export default function BecomeSitter() {
 
     const [errors, setErrors] = useState({});
     const [submitted, setSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (isAuthenticated && user) {
+            setIsExistingUser(true);
+            setFormData(prev => ({
+                ...prev,
+                firstName: user.firstName || '',
+                lastName: user.lastName || '',
+                email: user.email || '',
+                phone: user.phone || '',
+                city: user.city || '',
+            }));
+        }
+    }, [isAuthenticated, user]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -55,9 +80,14 @@ export default function BecomeSitter() {
     const validateForm = () => {
         const newErrors = {};
 
-        if (!formData.firstName.trim()) newErrors.firstName = 'El nombre es requerido';
-        if (!formData.lastName.trim()) newErrors.lastName = 'El apellido es requerido';
-        if (!formData.email.trim()) newErrors.email = 'El email es requerido';
+        // Only validate personal info if new user
+        if (!isExistingUser) {
+            if (!formData.firstName.trim()) newErrors.firstName = 'El nombre es requerido';
+            if (!formData.lastName.trim()) newErrors.lastName = 'El apellido es requerido';
+            if (!formData.email.trim()) newErrors.email = 'El email es requerido';
+            if (!formData.password || formData.password.length < 6) newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
+        }
+        
         if (!formData.phone.trim()) newErrors.phone = 'El teléfono es requerido';
         if (!formData.city.trim()) newErrors.city = 'La ciudad es requerida';
         if (!formData.experience) newErrors.experience = 'La experiencia es requerida';
@@ -65,23 +95,73 @@ export default function BecomeSitter() {
         if (formData.petTypes.length === 0) newErrors.petTypes = 'Selecciona al menos un tipo de mascota';
         if (!formData.propertyType) newErrors.propertyType = 'El tipo de propiedad es requerido';
         if (!formData.bio.trim()) newErrors.bio = 'La descripción es requerida';
+        if (!formData.price || parseFloat(formData.price) <= 0) newErrors.price = 'El precio es requerido';
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (validateForm()) {
-            console.log('Form submitted:', formData);
+        if (!validateForm()) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            // If new user, create account first
+            if (!isExistingUser) {
+                await api.auth.signup({
+                    email: formData.email,
+                    password: formData.password,
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    phone: formData.phone,
+                    city: formData.city,
+                    userType: 'sitter'
+                });
+            } else {
+                // Update existing user info if needed
+                if (user.phone !== formData.phone || user.city !== formData.city) {
+                    await api.users.update(user.id, {
+                        firstName: formData.firstName,
+                        lastName: formData.lastName,
+                        phone: formData.phone,
+                        city: formData.city
+                    });
+                }
+            }
+
+            // Create sitter profile
+            await api.sitters.createProfile({
+                bio: formData.bio,
+                price: parseFloat(formData.price),
+                location: formData.city,
+                neighborhood: formData.neighborhood,
+                experience: formData.experience,
+                services: formData.services,
+                petTypes: formData.petTypes,
+                propertyType: formData.propertyType,
+                hasOutdoorSpace: formData.hasOutdoorSpace,
+                allowsPets: formData.allowsPets,
+                maxPets: formData.maxPets,
+                skills: formData.skills,
+                certifications: formData.certifications
+            });
+
             setSubmitted(true);
-            // In a real app, this would send data to an API
             setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 100);
-        } else {
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setErrors({ submit: error.message || 'Error al enviar el formulario' });
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -96,8 +176,12 @@ export default function BecomeSitter() {
                         <h1>¡Solicitud Enviada!</h1>
                         <p>Gracias por tu interés en ser parte de Rintintin. Revisaremos tu aplicación y te contactaremos pronto.</p>
                         <div className="success-actions">
-                            <a href="/" className="btn btn-primary">Volver al Inicio</a>
-                            <a href="/search" className="btn btn-outline">Buscar Cuidadores</a>
+                            <button onClick={() => navigate('/sitter-dashboard')} className="btn btn-primary">
+                                Ir a mi Dashboard
+                            </button>
+                            <button onClick={() => navigate('/')} className="btn btn-outline">
+                                Volver al Inicio
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -141,6 +225,22 @@ export default function BecomeSitter() {
                             <h2>Información Personal</h2>
                         </div>
 
+                        {errors.submit && (
+                            <div className="error-banner">{errors.submit}</div>
+                        )}
+
+                        {!isExistingUser && (
+                            <div className="info-banner">
+                                Crea tu cuenta para convertirte en cuidador
+                            </div>
+                        )}
+
+                        {isExistingUser && (
+                            <div className="info-banner">
+                                Hola {user?.name}, completa tu perfil de cuidador
+                            </div>
+                        )}
+
                         <div className="form-grid">
                             <div className="form-group">
                                 <label className="form-label">Nombre *</label>
@@ -149,6 +249,7 @@ export default function BecomeSitter() {
                                     name="firstName"
                                     value={formData.firstName}
                                     onChange={handleChange}
+                                    disabled={isExistingUser}
                                     className={`form-input ${errors.firstName ? 'error' : ''}`}
                                     placeholder="Tu nombre"
                                 />
@@ -162,6 +263,7 @@ export default function BecomeSitter() {
                                     name="lastName"
                                     value={formData.lastName}
                                     onChange={handleChange}
+                                    disabled={isExistingUser}
                                     className={`form-input ${errors.lastName ? 'error' : ''}`}
                                     placeholder="Tu apellido"
                                 />
@@ -175,11 +277,27 @@ export default function BecomeSitter() {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
+                                    disabled={isExistingUser}
                                     className={`form-input ${errors.email ? 'error' : ''}`}
                                     placeholder="tu@email.com"
                                 />
                                 {errors.email && <span className="error-message">{errors.email}</span>}
                             </div>
+
+                            {!isExistingUser && (
+                                <div className="form-group">
+                                    <label className="form-label">Contraseña *</label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        className={`form-input ${errors.password ? 'error' : ''}`}
+                                        placeholder="Mínimo 6 caracteres"
+                                    />
+                                    {errors.password && <span className="error-message">{errors.password}</span>}
+                                </div>
+                            )}
 
                             <div className="form-group">
                                 <label className="form-label">Teléfono *</label>
@@ -348,6 +466,21 @@ export default function BecomeSitter() {
                                 <option value="4+">4 o más</option>
                             </select>
                         </div>
+
+                        <div className="form-group">
+                            <label className="form-label">Precio por día (UYU) *</label>
+                            <input
+                                type="number"
+                                name="price"
+                                value={formData.price}
+                                onChange={handleChange}
+                                className={`form-input ${errors.price ? 'error' : ''}`}
+                                placeholder="Ej: 500"
+                                min="0"
+                                step="50"
+                            />
+                            {errors.price && <span className="error-message">{errors.price}</span>}
+                        </div>
                     </section>
 
                     {/* Availability */}
@@ -419,8 +552,8 @@ export default function BecomeSitter() {
                     </section>
 
                     <div className="form-actions">
-                        <button type="submit" className="btn btn-primary btn-lg">
-                            Enviar Solicitud
+                        <button type="submit" className="btn btn-primary btn-lg" disabled={loading}>
+                            {loading ? 'Enviando...' : (isExistingUser ? 'Actualizar Perfil' : 'Crear Cuenta y Perfil')}
                         </button>
                         <p className="form-note">* Campos requeridos</p>
                     </div>

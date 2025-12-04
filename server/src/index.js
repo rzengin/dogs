@@ -7,6 +7,8 @@ import { PrismaClient } from '@prisma/client';
 import authRoutes from './routes/auth.js';
 import usersRoutes from './routes/users.js';
 import petsRoutes from './routes/pets.js';
+import bookingsRoutes from './routes/bookings.js';
+import sittersRoutes from './routes/sitters.js';
 
 dotenv.config();
 
@@ -26,6 +28,8 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/pets', petsRoutes);
+app.use('/api/bookings', bookingsRoutes);
+app.use('/api/sitters', sittersRoutes);
 
 // Legacy route (keep for now)
 app.get('/api/users', async (req, res) => {

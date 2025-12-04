@@ -34,6 +34,9 @@ export default function Navbar() {
           <Link to="/search" className="navbar-link">Buscar Cuidadores</Link>
           <Link to="/become-sitter" className="navbar-link">Ser Cuidador</Link>
           <Link to="/services" className="navbar-link">Servicios</Link>
+          {isAuthenticated && (
+            <Link to="/sitter-dashboard" className="navbar-link">Panel de Cuidador</Link>
+          )}
 
           <div className="navbar-actions">
             {isAuthenticated ? (

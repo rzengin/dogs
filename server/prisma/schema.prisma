@@ -4,8 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -26,14 +26,39 @@ model User {
 }
 
 model SitterProfile {
-  id          Int      @id @default(autoincrement())
-  userId      Int      @unique
-  user        User     @relation(fields: [userId], references: [id])
-  bio         String
-  price       Float
-  location    String
-  rating      Float    @default(0)
-  reviews     Review[]
+  id              Int      @id @default(autoincrement())
+  userId          Int      @unique
+  user            User     @relation(fields: [userId], references: [id])
+  bio             String
+  price           Float
+  location        String
+  neighborhood    String?
+  experience      String
+  services        String   // JSON array as string
+  petTypes        String   // JSON array as string
+  propertyType    String
+  hasOutdoorSpace Boolean  @default(false)
+  allowsPets      Boolean  @default(false)
+  maxPets         String
+  skills          String?
+  certifications  String?
+  rating          Float    @default(0)
+  reviews         Review[]
+  availability    SitterAvailability[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model SitterAvailability {
+  id        Int      @id @default(autoincrement())
+  sitterId  Int
+  sitter    SitterProfile @relation(fields: [sitterId], references: [id], onDelete: Cascade)
+  date      DateTime
+  isAvailable Boolean @default(true)
+  slots     String   // JSON array: ["morning", "afternoon", "evening", "overnight"]
+  createdAt DateTime @default(now())
+  
+  @@unique([sitterId, date])
 }
 
 model Pet {
@@ -50,14 +75,19 @@ model Pet {
 }
 
 model Booking {
-  id        Int      @id @default(autoincrement())
-  startDate DateTime
-  endDate   DateTime
-  status    String   @default("PENDING") // PENDING, CONFIRMED, COMPLETED, CANCELLED
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  sitterId  Int // Reference to SitterProfile ID ideally, or User ID of sitter
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  startDate   DateTime
+  endDate     DateTime
+  status      String   @default("PENDING") // PENDING, CONFIRMED, COMPLETED, CANCELLED
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  sitterId    Int      // Reference to User ID of sitter
+  petId       Int?
+  serviceName String?
+  price       Float?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Review {

@@ -31,3 +31,11 @@ docker-compose.override.yml
 .vscode
 *.swp
 *.swo
+
+# Prisma
+server/prisma/dev.db
+server/prisma/dev.db-journal
+server/prisma/migrations/**/migration.sql
+
+# Railway
+.railway

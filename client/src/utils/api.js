@@ -87,6 +87,22 @@ export const api = {
             return api.request(`/api/sitters${queryString ? `?${queryString}` : ''}`);
         },
         getById: (id) => api.request(`/api/sitters/${id}`),
+        createProfile: (profileData) => api.request('/api/sitters/profile', {
+            method: 'POST',
+            body: JSON.stringify(profileData),
+        }),
+        getAvailability: (id, params = {}) => {
+            const queryString = new URLSearchParams(params).toString();
+            return api.request(`/api/sitters/${id}/availability${queryString ? `?${queryString}` : ''}`);
+        },
+        updateAvailability: (availabilityData) => api.request('/api/sitters/availability', {
+            method: 'POST',
+            body: JSON.stringify(availabilityData),
+        }),
+        createReview: (id, reviewData) => api.request(`/api/sitters/${id}/reviews`, {
+            method: 'POST',
+            body: JSON.stringify(reviewData),
+        }),
     },
 
     // Bookings endpoints
@@ -97,6 +113,13 @@ export const api = {
         }),
         getAll: () => api.request('/api/bookings'),
         getById: (id) => api.request(`/api/bookings/${id}`),
+        getSitterBookings: () => api.request('/api/bookings/sitter'),
+        getSitterClients: () => api.request('/api/bookings/clients'),
+        getSitterPets: () => api.request('/api/bookings/pets'),
+        updateStatus: (id, status) => api.request(`/api/bookings/${id}/status`, {
+            method: 'PATCH',
+            body: JSON.stringify({ status }),
+        }),
     },
 };
 

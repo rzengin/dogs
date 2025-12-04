@@ -13,6 +13,7 @@ import BookingConfirmation from './pages/BookingConfirmation';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
+import SitterDashboard from './pages/SitterDashboard';
 import Services from './pages/Services';
 import './App.css';
 
@@ -59,6 +60,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Admin />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/sitter-dashboard"
+                element={
+                  <ProtectedRoute>
+                    <SitterDashboard />
                   </ProtectedRoute>
                 }
               />

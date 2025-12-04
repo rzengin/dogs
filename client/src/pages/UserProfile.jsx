@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Mail, Phone, MapPin, PawPrint, Edit2, Plus, Trash2 } from 'lucide-react';
+import { User, Mail, Phone, MapPin, PawPrint, Edit2, Plus, Trash2, Calendar as CalendarIcon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import Calendar from '../components/Calendar';
 import api from '../utils/api';
 import './UserProfile.css';
 
 export default function UserProfile() {
     const { user: authUser, isAuthenticated } = useAuth();
     const [userData, setUserData] = useState(null);
+    const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -26,6 +28,10 @@ export default function UserProfile() {
             setLoading(true);
             const data = await api.users.getMe();
             setUserData(data);
+            
+            // Fetch user's bookings
+            const bookingsData = await api.bookings.getAll();
+            setBookings(bookingsData);
         } catch (err) {
             console.error('Error fetching user data:', err);
             setError('Error al cargar el perfil');
@@ -156,6 +162,45 @@ export default function UserProfile() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Bookings Calendar Card */}
+                    <div className="profile-card calendar-card">
+                        <div className="card-header">
+                            <h2 className="card-title">
+                                <CalendarIcon size={24} />
+                                Mis Reservas
+                            </h2>
+                        </div>
+                        <div className="card-content">
+                            <Calendar 
+                                bookings={bookings}
+                                mode="view"
+                            />
+                            
+                            {bookings.length > 0 && (
+                                <div className="bookings-summary">
+                                    <h4>Próximas Reservas</h4>
+                                    {bookings
+                                        .filter(b => new Date(b.startDate) >= new Date())
+                                        .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
+                                        .slice(0, 3)
+                                        .map(booking => (
+                                            <div key={booking.id} className="booking-summary-item">
+                                                <div className="booking-date">
+                                                    {new Date(booking.startDate).toLocaleDateString()} - {new Date(booking.endDate).toLocaleDateString()}
+                                                </div>
+                                                <div className="booking-info">
+                                                    <span className={`status-badge ${booking.status.toLowerCase()}`}>
+                                                        {booking.status}
+                                                    </span>
+                                                    {booking.serviceName && <span>{booking.serviceName}</span>}
+                                                </div>
+                                            </div>
+                                        ))}
+                                </div>
+                            )}
                         </div>
                     </div>
 

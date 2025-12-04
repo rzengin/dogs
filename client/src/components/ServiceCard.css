@@ -1,90 +1,45 @@
 .service-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-xl);
-    padding: var(--spacing-2xl);
-    box-shadow: var(--shadow-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-sm);
     transition: all var(--transition-base);
     text-align: center;
     position: relative;
     overflow: hidden;
-}
-
-.service-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--card-color, var(--gradient-primary));
-    opacity: 0;
-    transition: opacity var(--transition-base);
-}
-
-.service-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: var(--radius-xl);
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    pointer-events: none;
+    height: 100%;
 }
 
 .service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-lg), 0 0 40px hsla(var(--card-hue, 266), 85%, 58%, 0.3);
-    border-color: var(--color-primary);
-}
-
-.service-card:hover::before {
-    opacity: 1;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-border);
 }
 
 .service-icon {
-    width: 90px;
-    height: 90px;
-    margin: 0 auto calc(var(--spacing-md) + 0.5rem);
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--spacing-md);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--card-color, var(--color-primary)) 0%, var(--card-color, var(--color-primary-dark)) 100%);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 20px var(--card-color, var(--color-primary));
-    font-size: 2.75rem;
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-full);
+    font-size: 2rem;
+    color: var(--color-primary);
     transition: all var(--transition-base);
-    position: relative;
-}
-
-.service-icon::after {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    background: var(--card-color, var(--gradient-primary));
-    border-radius: var(--radius-lg);
-    opacity: 0;
-    filter: blur(12px);
-    transition: opacity var(--transition-base);
-    z-index: -1;
 }
 
 .service-card:hover .service-icon {
-    transform: scale(1.15) rotate(5deg);
-}
-
-.service-card:hover .service-icon::after {
-    opacity: 0.7;
+    background: var(--color-primary);
+    color: white;
+    transform: scale(1.1);
 }
 
 .service-title {
-    font-size: var(--font-size-xl);
-    font-weight: 700;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
     margin-bottom: var(--spacing-sm);
     color: var(--color-text-primary);
     letter-spacing: -0.01em;
@@ -93,40 +48,25 @@
 .service-description {
     font-size: var(--font-size-base);
     color: var(--color-text-secondary);
-    line-height: 1.7;
+    line-height: 1.5;
     margin-bottom: var(--spacing-lg);
 }
 
 .service-link {
     background: none;
     border: none;
-    color: var(--color-primary-light);
-    font-weight: 600;
+    color: var(--color-secondary);
+    font-weight: 500;
     cursor: pointer;
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
     transition: all var(--transition-fast);
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    position: relative;
-}
-
-.service-link::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--gradient-primary);
-    transition: width var(--transition-base);
+    gap: 0.25rem;
 }
 
 .service-link:hover {
-    gap: 0.875rem;
+    gap: 0.5rem;
     color: var(--color-secondary-light);
-}
-
-.service-link:hover::after {
-    width: 100%;
+    text-decoration: underline;
 }
