@@ -1,5 +1,5 @@
 # Build Stage
-FROM node:20-alpine as build
+FROM node:20-alpine AS build
 
 # Recibir la variable de entorno como argumento
 ARG VITE_API_URL
