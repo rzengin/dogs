@@ -17,6 +17,10 @@ RUN echo "Building with VITE_API_URL: $VITE_API_URL"
 
 RUN npm run build
 
+# Verificar que config.js esté en el build
+RUN ls -la dist/
+RUN cat dist/config.js || echo "config.js not found!"
+
 # Production Stage
 FROM nginx:alpine
 
