@@ -43,6 +43,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const data = await api.auth.login(credentials);
             localStorage.setItem('authToken', data.token);
+            localStorage.setItem('currentUser', JSON.stringify(data.user));
             setUser(data.user);
             setIsAuthenticated(true);
             return data;
@@ -55,6 +56,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const data = await api.auth.signup(userData);
             localStorage.setItem('authToken', data.token);
+            localStorage.setItem('currentUser', JSON.stringify(data.user));
             setUser(data.user);
             setIsAuthenticated(true);
             return data;
@@ -65,6 +67,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem('authToken');
+        localStorage.removeItem('currentUser');
         setUser(null);
         setIsAuthenticated(false);
     };
