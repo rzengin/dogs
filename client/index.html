@@ -5,8 +5,14 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rintintin - Cuidado de Mascotas Uruguay</title>
-    <!-- Runtime configuration -->
-    <script src="/config.js"></script>
+    <!-- Runtime configuration - Inline to avoid routing issues -->
+    <script>
+      console.log('📦 Loading inline config...');
+      window.APP_CONFIG = {
+        API_URL: 'https://server-production-d03a.up.railway.app'
+      };
+      console.log('✅ Config loaded:', window.APP_CONFIG);
+    </script>
   </head>
   <body>
     <div id="root"></div>
