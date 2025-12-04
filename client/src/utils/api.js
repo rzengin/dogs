@@ -1,5 +1,12 @@
 // API Configuration
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+// Prioridad: window.APP_CONFIG (runtime) > import.meta.env (build time) > localhost (fallback)
+const API_URL = window.APP_CONFIG?.API_URL || import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+console.log('🔧 API Configuration:', {
+    runtimeConfig: window.APP_CONFIG?.API_URL,
+    buildTimeConfig: import.meta.env.VITE_API_URL,
+    finalURL: API_URL
+});
 
 // Get JWT token from localStorage
 const getAuthToken = () => {
