@@ -24,6 +24,29 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Server is running' });
 });
 
+// Debug endpoint - Ver usuarios (TEMPORAL - REMOVER EN PRODUCCIÓN)
+app.get('/api/debug/users', async (req, res) => {
+    try {
+        const users = await prisma.user.findMany({
+            select: {
+                id: true,
+                email: true,
+                firstName: true,
+                lastName: true,
+                name: true,
+                role: true,
+                createdAt: true,
+            },
+        });
+        res.json({
+            count: users.length,
+            users: users,
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
