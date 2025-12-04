@@ -5,6 +5,47 @@ import { authMiddleware, adminMiddleware } from '../middleware/auth.js';
 const router = express.Router();
 const prisma = new PrismaClient();
 
+// Get current user with pets
+router.get('/me', authMiddleware, async (req, res) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: req.userId },
+            select: {
+                id: true,
+                email: true,
+                firstName: true,
+                lastName: true,
+                name: true,
+                phone: true,
+                city: true,
+                role: true,
+                createdAt: true,
+                pets: {
+                    select: {
+                        id: true,
+                        petName: true,
+                        petBreed: true,
+                        petAge: true,
+                        petWeight: true,
+                        specialNeeds: true,
+                        createdAt: true,
+                    },
+                    orderBy: { createdAt: 'desc' },
+                },
+            },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        res.json(user);
+    } catch (error) {
+        console.error('Get current user error:', error);
+        res.status(500).json({ message: 'Error al obtener usuario actual' });
+    }
+});
+
 // Get all users (admin only)
 router.get('/', authMiddleware, adminMiddleware, async (req, res) => {
     try {

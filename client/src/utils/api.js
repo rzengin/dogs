@@ -52,6 +52,7 @@ export const api = {
 
     // Users endpoints
     users: {
+        getMe: () => api.request('/api/users/me'),
         getAll: () => api.request('/api/users'),
         getById: (id) => api.request(`/api/users/${id}`),
         update: (id, userData) => api.request(`/api/users/${id}`, {
