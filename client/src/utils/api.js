@@ -8,6 +8,10 @@ console.log('🔧 API Configuration:', {
     finalURL: API_URL
 });
 
+if (import.meta.env.PROD && API_URL.includes('localhost')) {
+    console.warn('⚠️ WARNING: Running in production but using localhost API URL. Make sure VITE_API_URL is set in your environment variables.');
+}
+
 // Get JWT token from localStorage
 const getAuthToken = () => {
     return localStorage.getItem('authToken');
