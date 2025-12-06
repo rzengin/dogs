@@ -20,6 +20,7 @@ const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:4173',
     'http://localhost:8080',
+    'https://client-dogs.up.railway.app',
     process.env.CLIENT_URL,
     process.env.VITE_CLIENT_URL
 ].filter(Boolean);
